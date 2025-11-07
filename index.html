@@ -16,21 +16,59 @@
 
     <main>
       <div class="carousel">
+        <!-- Slide 1: Lista similar a la original pero sin % ni votos -->
         <div class="slide active">
-          <h2>Partidos Políticos</h2>
-          <div class="partidos">
-            <div class="partido">FUERZA PATRIA</div>
-            <div class="partido">LA LIBERTAD AVANZA</div>
-            <div class="partido">SOMOS BUENOS AIRES</div>
-            <div class="partido">FTE DE IZQ. Y DE TRABAJADORES - UNIDAD</div>
+          <h2>Partidos</h2>
+          <div class="list-wrap">
+            <div class="item">
+              <div class="avatar fp">FP</div>
+              <div class="info">
+                <div class="name">FUERZA PATRIA</div>
+                <div class="bar-wrap" aria-hidden="true">
+                  <div class="bar fp"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="avatar lla">LLA</div>
+              <div class="info">
+                <div class="name">LA LIBERTAD AVANZA</div>
+                <div class="bar-wrap" aria-hidden="true">
+                  <div class="bar lla"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="avatar sba">SBA</div>
+              <div class="info">
+                <div class="name">SOMOS BUENOS AIRES</div>
+                <div class="bar-wrap" aria-hidden="true">
+                  <div class="bar sba"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="avatar fit">FIT</div>
+              <div class="info">
+                <div class="name">FTE DE IZQ. Y DE TRABAJADORES - UNIDAD</div>
+                <div class="bar-wrap" aria-hidden="true">
+                  <div class="bar fit"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
+        <!-- Slide 2: Mesas escrutadas -->
         <div class="slide">
           <h2>Mesas Escrutadas</h2>
           <div class="dato-grande">78%</div>
         </div>
 
+        <!-- Slide 3: Participación (torta) -->
         <div class="slide">
           <h2>Participación Electoral</h2>
           <canvas id="graficaParticipacion" width="400" height="400"></canvas>
@@ -84,7 +122,18 @@
     }
 
     dots.forEach((dot, i) => dot.addEventListener('click', () => showSlide(i)));
+
+    // Swipe support for desktop + touch
+    let startX = null;
+    const carousel = document.querySelector('.carousel');
+    carousel.addEventListener('pointerdown', (e) => { startX = e.clientX; carousel.setPointerCapture(e.pointerId); });
+    carousel.addEventListener('pointerup', (e) => {
+      if (startX === null) return;
+      const dx = e.clientX - startX;
+      if (dx < -50) showSlide(current + 1);
+      if (dx > 50) showSlide(current - 1);
+      startX = null;
+    });
   </script>
 </body>
 </html>
-
