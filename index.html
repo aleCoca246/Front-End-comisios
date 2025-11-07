@@ -1,62 +1,54 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Elecciones Bonaerenses — Escrutinio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elecciones Bonaerenses</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <div class="container">
+  <div class="container"> 
     <header>
-      <div class="logo">ELECCIONES<br><small>BONAERENSES</small></div>
-      <div class="hora">02:35h &nbsp; 8 septiembre 2025</div>
+      <div class="logo">Elecciones 2025 <small>Bonaerenses</small></div>
+      <div class="hora">06:42 | 95.2% Mesas escrutadas</div>
     </header>
 
     <main>
       <div class="carousel">
-        <!-- Slide 1: Lista similar a la original pero sin % ni votos -->
+        <!-- Slide 1: Lista de partidos -->
         <div class="slide active">
-          <h2>Partidos</h2>
-          <div class="list-wrap">
-            <div class="item">
-              <div class="avatar fp">FP</div>
+          <h2>Lista de Partidos</h2>
+          <div class="partidos">
+            <div class="partido fuerza">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Blue_square.svg" alt="Fuerza Patria">
               <div class="info">
-                <div class="name">FUERZA PATRIA</div>
-                <div class="bar-wrap" aria-hidden="true">
-                  <div class="bar fp"></div>
-                </div>
+                <h3>Fuerza Patria</h3>
+                <div class="barra"><span style="width:70%;"></span></div>
               </div>
             </div>
 
-            <div class="item">
-              <div class="avatar lla">LLA</div>
+            <div class="partido libertad">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Purple_square.svg" alt="La Libertad Avanza">
               <div class="info">
-                <div class="name">LA LIBERTAD AVANZA</div>
-                <div class="bar-wrap" aria-hidden="true">
-                  <div class="bar lla"></div>
-                </div>
+                <h3>La Libertad Avanza</h3>
+                <div class="barra"><span style="width:55%;"></span></div>
               </div>
             </div>
 
-            <div class="item">
-              <div class="avatar sba">SBA</div>
+            <div class="partido somos">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/Pink_square.svg" alt="Somos Buenos Aires">
               <div class="info">
-                <div class="name">SOMOS BUENOS AIRES</div>
-                <div class="bar-wrap" aria-hidden="true">
-                  <div class="bar sba"></div>
-                </div>
+                <h3>Somos Buenos Aires</h3>
+                <div class="barra"><span style="width:40%;"></span></div>
               </div>
             </div>
 
-            <div class="item">
-              <div class="avatar fit">FIT</div>
+            <div class="partido fite">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Red_square.svg" alt="Frente de Izquierda y Trabajadores">
               <div class="info">
-                <div class="name">FTE DE IZQ. Y DE TRABAJADORES - UNIDAD</div>
-                <div class="bar-wrap" aria-hidden="true">
-                  <div class="bar fit"></div>
-                </div>
+                <h3>Frente de Izquierda y Trabajadores</h3>
+                <div class="barra"><span style="width:20%;"></span></div>
               </div>
             </div>
           </div>
@@ -64,75 +56,65 @@
 
         <!-- Slide 2: Mesas escrutadas -->
         <div class="slide">
-          <h2>Mesas Escrutadas</h2>
-          <div class="dato-grande">78%</div>
+          <h2>Mesas escrutadas</h2>
+          <div class="dato-grande">95.2%</div>
         </div>
 
-        <!-- Slide 3: Participación (torta) -->
+        <!-- Slide 3: Participación -->
         <div class="slide">
-          <h2>Participación Electoral</h2>
-          <canvas id="graficaParticipacion" width="400" height="400"></canvas>
+          <h2>Participación</h2>
+          <canvas id="grafico"></canvas>
         </div>
       </div>
 
       <div class="indicadores">
-        <span class="dot active"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
       </div>
     </main>
 
     <footer>
-      <a href="senadores.html" class="btn">Senadores Provinciales →</a>
-      <a href="diputados.html" class="btn">Diputados Provinciales →</a>
-      <a href="concejales.html" class="btn">Concejales →</a>
+      <a href="senadores.html" class="btn">Senadores</a>
+      <a href="diputados.html" class="btn">Diputados</a>
+      <a href="concejales.html" class="btn">Concejales</a>
     </footer>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    const ctx = document.getElementById('graficaParticipacion');
-    new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Votantes', 'Ausentes'],
-        datasets: [{
-          data: [72, 28],
-          backgroundColor: ['#10b4b8', '#e0e0e0'],
-          borderWidth: 0
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { position: 'bottom' } }
-      }
-    });
-
-    // Carrusel simple
+    // Carrusel manual
     const slides = document.querySelectorAll('.slide');
     const dots = document.querySelectorAll('.dot');
     let current = 0;
 
-    function showSlide(i) {
-      slides[current].classList.remove('active');
-      dots[current].classList.remove('active');
-      current = (i + slides.length) % slides.length;
-      slides[current].classList.add('active');
-      dots[current].classList.add('active');
+    function showSlide(index) {
+      slides.forEach((s, i) => s.classList.toggle('active', i === index));
+      dots.forEach((d, i) => d.classList.toggle('active', i === index));
     }
 
-    dots.forEach((dot, i) => dot.addEventListener('click', () => showSlide(i)));
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        current = i;
+        showSlide(current);
+      });
+    });
 
-    // Swipe support for desktop + touch
-    let startX = null;
-    const carousel = document.querySelector('.carousel');
-    carousel.addEventListener('pointerdown', (e) => { startX = e.clientX; carousel.setPointerCapture(e.pointerId); });
-    carousel.addEventListener('pointerup', (e) => {
-      if (startX === null) return;
-      const dx = e.clientX - startX;
-      if (dx < -50) showSlide(current + 1);
-      if (dx > 50) showSlide(current - 1);
-      startX = null;
+    // Gráfico de participación
+    const ctx = document.getElementById('grafico');
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Participó', 'No participó'],
+        datasets: [{
+          data: [78, 22],
+          backgroundColor: ['#1cc2c7', '#ddd'],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        cutout: '70%',
+        plugins: { legend: { display: false } }
+      }
     });
   </script>
 </body>
